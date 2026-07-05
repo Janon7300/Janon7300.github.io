@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBSE Interactive Demos</title>
+    <style>
+        :root {
+            /* Common */
+            --bg-color: #f4f4f9;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --border-color: #ddd;
+            --accent-color: #4caf50;
+            
+            /* Demo 1 Specific */
+            --window-bg: #ffffff;
+            --window-border: #cccccc;
+            --non-cbse-bg: #ffe6e6;
+            --non-cbse-border: #ff6666;
+            --non-cbse-text: #cc0000;
+            --cbse-nav-bg: #e6ffe6;
+            --cbse-nav-border: #33cc33;
+            --cbse-nav-text: #006600;
+            --cbse-login-bg: #e6e6ff;
+            --cbse-login-border: #6666ff;
+            --cbse-login-text: #0000cc;
+            --cbse-product-bg: #ffffe6;
+            --cbse-product-border: #cccc00;
+            --cbse-product-text: #666600;
+            --cbse-footer-bg: #ffe6cc;
+            --cbse-footer-border: #ff9933;
+            --cbse-footer-text: #cc5200;
+            --toggle-bg: #ccc;
+            --toggle-active: #33cc33;
+            --caption-bg: #ffffff;
+
+            /* Demo 2 Specific */
+            --demo-bg: #f9f9f9;
+            --input-bg: #fff;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --text-color: #e0e0e0;
+                --card-bg: #2d2d2d;
+                --border-color: #555;
+                --accent-color: #33cc33;
+                
+                --window-bg: #2d2d2d;
+                --window-border: #444444;
+                --non-cbse-bg: #4d1a1a;
+                --non-cbse-border: #ff6666;
+                --non-cbse-text: #ff9999;
+                --cbse-nav-bg: #1a4d1a;
+                --cbse-nav-border: #33cc33;
+                --cbse-nav-text: #99ff99;
+                --cbse-login-bg: #1a1a4d;
+                --cbse-login-border: #6666ff;
+                --cbse-login-text: #9999ff;
+                --cbse-product-bg: #4d4d1a;
+                --cbse-product-border: #cccc00;
+                --cbse-product-text: #ffff99;
+                --cbse-footer-bg: #4d2600;
+                --cbse-footer-border: #ff9933;
+                --cbse-footer-text: #ffb366;
+                --toggle-bg: #555;
+                --caption-bg: #2d2d2d;
+
+                --demo-bg: #3a3a3a;
+                --input-bg: #444;
+            }
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            margin: 0; 
+            transition: background 0.3s, color 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- Navbar / Tabs --- */
+        .tabs-nav { 
+            display: flex; 
+            gap: 15px; 
+            margin-top: 30px; 
+            margin-bottom: 20px; 
+            background: var(--card-bg); 
+            padding: 10px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+        }
+        .tab-btn { 
+            padding: 12px 24px; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            border: none; 
+            background: transparent; 
+            color: var(--text-color); 
+            border-radius: 6px; 
+            transition: 0.3s; 
+        }
+        .tab-btn.active { 
+            background: var(--accent-color); 
+            color: white; 
+        }
+        .tab-btn:hover:not(.active) { 
+            background: rgba(76, 175, 80, 0.15); 
+        }
+
+        .view-section { 
+            display: none; 
+            width: 100%; 
+            max-width: 900px; 
+            padding: 20px; 
+            box-sizing: border-box; 
+        }
+        .view-section.active { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            animation: fadeIn 0.3s ease-in-out; 
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- Demo 1 (Monolithic vs CBSE) --- */
+        .d1-container { width: 100%; max-width: 800px; }
+        .d1-toggle-container { display: flex; justify-content: center; align-items: center; margin-bottom: 2rem; gap: 1.5rem; }
+        .d1-switch { position: relative; display: inline-block; width: 60px; height: 30px; }
+        .d1-switch input { opacity: 0; width: 0; height: 0; }
+        .d1-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--toggle-bg); transition: .4s; border-radius: 30px; }
+        .d1-slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        .d1-switch input:checked + .d1-slider { background-color: var(--toggle-active); }
+        .d1-switch input:checked + .d1-slider:before { transform: translateX(30px); }
+        
+        .d1-browser-window { background-color: var(--window-bg); border: 2px solid var(--window-border); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; height: 450px; margin-bottom: 1.5rem; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .d1-browser-header { background-color: var(--window-border); padding: 10px 15px; display: flex; gap: 8px; }
+        .d1-b-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .d1-b-dot:nth-child(1) { background-color: #ff5f56; }
+        .d1-b-dot:nth-child(2) { background-color: #ffbd2e; }
+        .d1-b-dot:nth-child(3) { background-color: #27c93f; }
+        .d1-browser-content { flex: 1; padding: 15px; display: flex; flex-direction: column; }
+        
+        .d1-monolithic { background-color: var(--non-cbse-bg); border: 3px solid var(--non-cbse-border); color: var(--non-cbse-text); flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; border-radius: 4px; font-size: 1.2rem; line-height: 1.6; }
+        .d1-cbse-layout { display: none; flex-direction: column; height: 100%; gap: 12px; }
+        .d1-component { display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; border-radius: 4px; border-width: 2px; border-style: solid; }
+        .d1-nav { background-color: var(--cbse-nav-bg); border-color: var(--cbse-nav-border); color: var(--cbse-nav-text); height: 60px; }
+        .d1-main-content { display: flex; flex: 1; gap: 12px; }
+        .d1-login { background-color: var(--cbse-login-bg); border-color: var(--cbse-login-border); color: var(--cbse-login-text); flex: 1; }
+        .d1-products { display: flex; flex: 2; gap: 12px; }
+        .d1-product-card { background-color: var(--cbse-product-bg); border-color: var(--cbse-product-border); color: var(--cbse-product-text); flex: 1; }
+        .d1-footer { background-color: var(--cbse-footer-bg); border-color: var(--cbse-footer-border); color: var(--cbse-footer-text); height: 50px; }
+        .d1-caption { text-align: center; font-size: 1.1rem; padding: 15px 20px; background-color: var(--caption-bg); border: 1px solid var(--window-border); border-radius: 8px; line-height: 1.5; width: 100%; box-sizing: border-box; }
+
+        /* --- Demo 2 (6 Characteristics Carousel) --- */
+        .d2-carousel { position: relative; width: 100%; max-width: 850px; background: var(--card-bg); border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); border-top: 6px solid var(--accent-color); display: flex; flex-direction: column; min-height: 520px; overflow: hidden; }
+        .d2-slides-container { flex: 1; position: relative; }
+        .d2-slide { display: none; padding: 30px 40px; flex-direction: column; animation: fadeInSlide 0.3s ease-in-out; height: 100%; box-sizing: border-box; }
+        .d2-slide.active { display: flex; }
+        @keyframes fadeInSlide { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        .d2-slide h3 { margin-top: 0; color: var(--accent-color); font-size: 1.5rem; }
+        .d2-slide p { font-size: 1.05rem; margin-bottom: 20px; line-height: 1.6; }
+        
+        .d2-demo-box { margin-top: auto; padding: 20px; background: var(--demo-bg); border: 1px dashed var(--border-color); border-radius: 8px; }
+        .d2-nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: rgba(0,0,0,0.03); border-top: 1px solid var(--border-color); }
+        .d2-nav-btn { background: var(--accent-color); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.2s; display: flex; align-items: center; gap: 8px; }
+        .d2-nav-btn:hover:not(:disabled) { opacity: 0.8; }
+        .d2-nav-btn:disabled { background: var(--border-color); cursor: not-allowed; color: #999; }
+        .d2-dots { display: flex; gap: 8px; }
+        .d2-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--border-color); cursor: pointer; transition: 0.3s; }
+        .d2-dot.active { background: var(--accent-color); transform: scale(1.3); }
+
+        .btn { padding: 10px 16px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 1rem; }
+        .btn:hover { opacity: 0.8; }
+        input[type="text"], input[type="number"] { padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; width: 100%; box-sizing: border-box; margin-bottom: 12px; background: var(--input-bg); color: var(--text-color); font-size: 1rem; }
+        label.d2-label { display: inline-block; margin-right: 15px; margin-bottom: 10px; cursor: pointer; font-weight: bold; font-size: 1rem; }
+    </style>
+</head>
+<body>
+
+    <!-- Tabs Navigation -->
+    <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('demo1', event)">เปรียบเทียบโครงสร้าง</button>
+        <button class="tab-btn" onclick="switchTab('demo2', event)">6 คุณลักษณะของคอมโพเนนต์</button>
+    </div>
+
+    <!-- ==================== DEMO 1: Toggle View ==================== -->
+    <div id="demo1" class="view-section active">
+        <div class="d1-container">
+            <h2 style="text-align: center; margin-bottom: 30px; font-weight: 600;">เปรียบเทียบการพัฒนาเว็บ: Monolithic vs CBSE</h2>
+            
+            <div class="d1-toggle-container">
+                <span id="d1-label-non-cbse" style="font-size: 1.1rem; font-weight: bold; transition: 0.2s;">ไม่ใช้ CBSE</span>
+                <label class="d1-switch">
+                    <input type="checkbox" id="d1-cbse-toggle">
+                    <span class="d1-slider"></span>
+                </label>
+                <span id="d1-label-cbse" style="font-size: 1.1rem; font-weight: normal; transition: 0.2s; color: gray;">ใช้ CBSE</span>
+            </div>
+
+            <div class="d1-browser-window">
+                <div class="d1-browser-header">
+                    <div class="d1-b-dot"></div>
+                    <div class="d1-b-dot"></div>
+                    <div class="d1-b-dot"></div>
+                </div>
+                <div class="d1-browser-content">
+                    <!-- Monolithic Mode -->
+                    <div id="d1-monolithic-view" class="d1-monolithic">
+                        <strong>index.html ไฟล์เดียว ~2,000 บรรทัด</strong>
+                        <br><br>
+                        Navbar / Login / สินค้า / Footer เขียนปนกันหมด
+                        <br><br>
+                        แก้จุดเดียวต้องไล่เช็คทั้งไฟล์!
+                    </div>
+
+                    <!-- CBSE Mode -->
+                    <div id="d1-cbse-view" class="d1-cbse-layout">
+                        <div class="d1-component d1-nav">&lt;Navbar /&gt;</div>
+                        <div class="d1-main-content">
+                            <div class="d1-component d1-login">&lt;LoginForm /&gt;</div>
+                            <div class="d1-products">
+                                <div class="d1-component d1-product-card">&lt;ProductCard /&gt;</div>
+                                <div class="d1-component d1-product-card">&lt;ProductCard /&gt;</div>
+                            </div>
+                        </div>
+                        <div class="d1-component d1-footer">&lt;Footer /&gt;</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="d1-caption-text" class="d1-caption">
+                <strong>โหมดไม่ใช้ CBSE (Monolithic):</strong><br>
+                แก้ไข Navbar ต้องเปิดไฟล์เดียวกับส่วนอื่น ผลกระทบคาดเดายาก หากเกิดข้อผิดพลาดอาจทำให้พังทั้งหน้าเว็บ
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==================== DEMO 2: 6 Characteristics Carousel ==================== -->
+    <div id="demo2" class="view-section">
+        <h2 style="text-align: center; margin-top: 0; margin-bottom: 20px; font-weight: 600;">จำลองการทำงาน 6 คุณลักษณะ (CBSE)</h2>
+        
+        <div class="d2-carousel">
+            <div class="d2-slides-container">
+                
+                <!-- Slide 1 -->
+                <div class="d2-slide active">
+                    <h3>การ์ดที่ 1: Standardized (มีมาตรฐาน)</h3>
+                    <p>ใช้เทคโนโลยีที่เป็นมาตรฐาน ทำให้เบราว์เซอร์หรือระบบอื่นๆ สามารถรู้จักและทำงานร่วมกันได้ทันที</p>
+                    <div class="d2-demo-box" id="demo2-component-box" style="text-align: center;">
+                        <!-- Web Component rendered via JS -->
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="d2-slide">
+                    <h3>การ์ดที่ 2: Independent (เป็นอิสระ)</h3>
+                    <p>คอมโพเนนต์ทำงานด้วยตัวเอง ไม่แชร์ข้อมูล (State) มั่วซ้ายขวา ลองกดบวกเลขดู จะเห็นว่ามันไม่กวนกัน</p>
+                    <div class="d2-demo-box" style="display: flex; gap: 15px;">
+                        <div style="flex:1; border:1px solid var(--border-color); padding:10px; text-align:center; border-radius:4px; background:var(--input-bg);">
+                            <h4 style="margin:5px 0;">ตัวนับ A</h4>
+                            <h2 id="countA" style="margin:10px 0;">0</h2>
+                            <button class="btn" onclick="counterA.increment()">+ เพิ่ม</button>
+                        </div>
+                        <div style="flex:1; border:1px solid var(--border-color); padding:10px; text-align:center; border-radius:4px; background:var(--input-bg);">
+                            <h4 style="margin:5px 0;">ตัวนับ B</h4>
+                            <h2 id="countB" style="margin:10px 0;">0</h2>
+                            <button class="btn" onclick="counterB.increment()" style="background:#2196F3;">+ เพิ่ม</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="d2-slide">
+                    <h3>การ์ดที่ 3: Composable (ประกอบกันได้)</h3>
+                    <p>เหมือนตัวต่อเลโก้ เราสามารถนำชิ้นส่วนต่างๆ มาประกอบกันเพื่อสร้างหน้าเว็บที่สมบูรณ์</p>
+                    <div>
+                        <label class="d2-label"><input type="checkbox" id="chkHeader" onchange="compose()"> Header</label>
+                        <label class="d2-label"><input type="checkbox" id="chkMain" onchange="compose()"> Main</label>
+                        <label class="d2-label"><input type="checkbox" id="chkFooter" onchange="compose()"> Footer</label>
+                    </div>
+                    <div class="d2-demo-box" id="compose-preview" style="min-height: 140px; display: flex; flex-direction: column; gap: 5px; align-items: stretch; border: 2px solid var(--border-color);">
+                        <div style="text-align:center; color:gray; margin-top:50px;">(พื้นที่ประกอบร่าง)</div>
+                    </div>
+                </div>
+
+                <!-- Slide 4 -->
+                <div class="d2-slide">
+                    <h3>การ์ดที่ 4: Deployable (ติดตั้ง/ใช้งานได้ทันที)</h3>
+                    <p>คอมโพเนนต์ถูกแพ็กเกจมาอย่างดี สามารถกดรันหรือติดตั้งใช้งานในระบบใหม่ได้เลยโดยไม่ต้องแก้ไขโค้ด</p>
+                    <div class="d2-demo-box">
+                        <code style="display:block; padding:15px; background:#222; color:#0f0; border-radius:4px; font-size:1rem;">
+                            import { showBanner } from 'ui-lib';<br>
+                            showBanner("ระบบพร้อมใช้งาน!");
+                        </code>
+                        <button class="btn" style="margin-top: 15px; width: 100%; font-size:1.1rem;" onclick="simulateDeploy()">▶ จำลองการติดตั้งและเรียกใช้งาน</button>
+                        <div id="deploy-result" style="margin-top:10px; color: var(--accent-color); font-weight: bold; text-align:center;"></div>
+                    </div>
+                </div>
+
+                <!-- Slide 5 -->
+                <div class="d2-slide">
+                    <h3>การ์ดที่ 5: Documented (มีข้อกำหนดชัดเจน)</h3>
+                    <p>คอมโพเนนต์จะมี Interface/เอกสารระบุชัดเจนว่าต้องการค่าอะไร ลองไม่กรอกราคาดูสิ ระบบจะปฏิเสธ!</p>
+                    <div class="d2-demo-box">
+                        <input type="text" id="docName" placeholder="ชื่อสินค้า (บังคับ)">
+                        <input type="number" id="docPrice" placeholder="ราคา (บังคับ)">
+                        <button class="btn" style="width: 100%;" onclick="createProduct()">สร้างการ์ดสินค้า</button>
+                        <div id="doc-result" style="margin-top:10px; min-height: 45px;"></div>
+                    </div>
+                </div>
+
+                <!-- Slide 6 -->
+                <div class="d2-slide">
+                    <h3>การ์ดที่ 6: Encapsulated (กล่องดำ/ปกปิดความลับ)</h3>
+                    <p>คุณส่งแค่ "ยอดเงินตั้งต้น" คอมโพเนนต์จะแอบไปคำนวณภาษี 7% และค่าธรรมเนียมลับให้เอง โดยคุณไม่ต้องเห็นสูตร</p>
+                    <div class="d2-demo-box">
+                        <input type="number" id="encapAmount" placeholder="ระบุยอดเงิน (เช่น 100)">
+                        <button class="btn" style="background:#ff9800; width: 100%; font-size:1.1rem;" onclick="processPayment()">คำนวณยอดสุทธิ (Black-box)</button>
+                        <div id="encap-result" style="margin-top:15px; font-size: 1.2rem; font-weight: bold; text-align:center;"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="d2-nav-container">
+                <button class="d2-nav-btn prev-btn" onclick="prevSlide()" disabled>&#10094; ย้อนกลับ</button>
+                <div class="d2-dots" id="dot-container">
+                    <!-- Dots generated by JS -->
+                </div>
+                <button class="d2-nav-btn next-btn" onclick="nextSlide()">ถัดไป &#10095;</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // ==========================================
+        // Tab Switching Logic
+        // ==========================================
+        function switchTab(tabId, event) {
+            // Hide all sections
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(tabId).classList.add('active');
+            // Add active class to clicked button
+            event.currentTarget.classList.add('active');
+        }
+
+        // ==========================================
+        // DEMO 1 Logic (Toggle)
+        // ==========================================
+        const d1Toggle = document.getElementById('d1-cbse-toggle');
+        const d1MonolithicView = document.getElementById('d1-monolithic-view');
+        const d1CbseView = document.getElementById('d1-cbse-view');
+        const d1CaptionText = document.getElementById('d1-caption-text');
+        const d1LabelNonCbse = document.getElementById('d1-label-non-cbse');
+        const d1LabelCbse = document.getElementById('d1-label-cbse');
+
+        d1Toggle.addEventListener('change', function() {
+            if (this.checked) {
+                d1MonolithicView.style.display = 'none';
+                d1CbseView.style.display = 'flex';
+                d1LabelNonCbse.style.fontWeight = 'normal';
+                d1LabelNonCbse.style.color = 'gray';
+                d1LabelCbse.style.fontWeight = 'bold';
+                d1LabelCbse.style.color = 'var(--text-color)';
+                d1CaptionText.innerHTML = '<strong>โหมดใช้ CBSE (Component-Based):</strong><br>แก้ไข Navbar ได้โดยไม่กระทบ Login หรือ ProductCard เพราะแยกอิสระจากกัน (Modular) สามารถนำชิ้นส่วนไปใช้ซ้ำในหน้าอื่นได้';
+            } else {
+                d1MonolithicView.style.display = 'flex';
+                d1CbseView.style.display = 'none';
+                d1LabelNonCbse.style.fontWeight = 'bold';
+                d1LabelNonCbse.style.color = 'var(--text-color)';
+                d1LabelCbse.style.fontWeight = 'normal';
+                d1LabelCbse.style.color = 'gray';
+                d1CaptionText.innerHTML = '<strong>โหมดไม่ใช้ CBSE (Monolithic):</strong><br>แก้ไข Navbar ต้องเปิดไฟล์เดียวกับส่วนอื่น ผลกระทบคาดเดายาก หากเกิดข้อผิดพลาดอาจทำให้พังทั้งหน้าเว็บ';
+            }
+        });
+
+        // ==========================================
+        // DEMO 2 Logic (Carousel 6 Characteristics)
+        // ==========================================
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.d2-slide');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        const dotContainer = document.getElementById('dot-container');
+
+        // Create dots
+        slides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('d2-dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.onclick = () => goToSlide(idx);
+            dotContainer.appendChild(dot);
+        });
+        const dots = document.querySelectorAll('.d2-dot');
+
+        function updateNav() {
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === currentSlide);
+                dots[idx].classList.toggle('active', idx === currentSlide);
+            });
+            prevBtn.disabled = currentSlide === 0;
+            
+            if (currentSlide === slides.length - 1) {
+                nextBtn.innerHTML = "สิ้นสุด 🚩";
+                nextBtn.disabled = true;
+                nextBtn.style.background = "var(--border-color)";
+                nextBtn.style.color = "#888";
+            } else {
+                nextBtn.innerHTML = "ถัดไป &#10095;";
+                nextBtn.disabled = false;
+                nextBtn.style.background = "var(--accent-color)";
+                nextBtn.style.color = "white";
+            }
+        }
+        function nextSlide() { if (currentSlide < slides.length - 1) { currentSlide++; updateNav(); } }
+        function prevSlide() { if (currentSlide > 0) { currentSlide--; updateNav(); } }
+        function goToSlide(index) { currentSlide = index; updateNav(); }
+
+        // --- Demo Functions for Characteristics ---
+        // 1. Web Component
+        class MyStandardButton extends HTMLElement {
+            connectedCallback() {
+                this.innerHTML = `<button class="btn" style="background: #e91e63;">ฉันคือ Web Component แท้ๆ!</button>`;
+                this.querySelector('button').onclick = () => alert("ปุ่มนี้ทำงานภายใต้มาตรฐาน Web Component (Custom Elements) ของ W3C!");
+            }
+        }
+        customElements.define('my-standard-button', MyStandardButton);
+        document.getElementById('demo2-component-box').innerHTML = `<my-standard-button></my-standard-button>`;
+
+        // 2. Independent
+        function createCounter(elementId) {
+            let count = 0; 
+            return { increment: () => { count++; document.getElementById(elementId).innerText = count; } }
+        }
+        const counterA = createCounter('countA');
+        const counterB = createCounter('countB');
+
+        // 3. Composable
+        function compose() {
+            const preview = document.getElementById('compose-preview');
+            preview.innerHTML = '';
+            let hasContent = false;
+            if(document.getElementById('chkHeader').checked) { preview.innerHTML += `<div style="background:#ff9800; color:white; padding:10px; text-align:center; font-weight:bold;">[ Header ]</div>`; hasContent = true; }
+            if(document.getElementById('chkMain').checked) { preview.innerHTML += `<div style="background:#03a9f4; color:white; padding:25px 10px; text-align:center; flex:1; font-weight:bold;">[ Main Content ]</div>`; hasContent = true; }
+            if(document.getElementById('chkFooter').checked) { preview.innerHTML += `<div style="background:#607d8b; color:white; padding:10px; text-align:center; font-weight:bold;">[ Footer ]</div>`; hasContent = true; }
+            if(!hasContent) preview.innerHTML = `<div style="text-align:center; color:gray; margin-top:50px;">(พื้นที่ประกอบร่าง)</div>`;
+        }
+
+        // 4. Deployable
+        function simulateDeploy() {
+            const res = document.getElementById('deploy-result');
+            res.innerText = "✅ ดึงไลบรารีสำเร็จ! แสดงผลได้เลย...";
+            setTimeout(() => { alert("ระบบพร้อมใช้งาน! (นี่คือผลลัพธ์จากคอมโพเนนต์ที่เรียกใช้)"); res.innerText = ""; }, 500);
+        }
+
+        // 5. Documented
+        function ProductCardComponent(props) {
+            if (!props.name || props.price === '') throw new Error("❌ Error: ข้อมูลไม่ครบตามเอกสาร! (Require: Name, Price)");
+            return `<div style="border:2px solid #4caf50; padding:10px; border-radius:4px; background:rgba(76, 175, 80, 0.1); color:var(--text-color);">✅ สำเร็จ: <strong>${props.name}</strong> - ${props.price} บาท</div>`;
+        }
+        function createProduct() {
+            const res = document.getElementById('doc-result');
+            try { res.innerHTML = ProductCardComponent({ name: document.getElementById('docName').value, price: document.getElementById('docPrice').value }); } 
+            catch (e) { res.innerHTML = `<span style="color:#ff5252; font-weight:bold;">${e.message}</span>`; }
+        }
+
+        // 6. Encapsulated
+        class PaymentGateway {
+            #taxRate = 0.07; #hiddenFee = 15;
+            process(amount) { return (amount + (amount * this.#taxRate) + this.#hiddenFee).toFixed(2); }
+        }
+        const gateway = new PaymentGateway();
+        function processPayment() {
+            const amount = parseFloat(document.getElementById('encapAmount').value);
+            if(isNaN(amount)) return;
+            document.getElementById('encap-result').innerHTML = `ยอดสุทธิ: <span style="color:#ff9800; font-size:1.3em;">${gateway.process(amount)}</span> บาท`;
+        }
+    </script>
+</body>
+</html>

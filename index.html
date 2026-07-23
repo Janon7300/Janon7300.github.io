@@ -1,1 +1,33 @@
+<p>
+  DECLARE
+    v_percent   NUMBER;
+    v_new_price NUMBER;
+    v_status    VARCHAR2(20);
+    CURSOR cc IS 
+        SELECT book_id, book_name, price
+        FROM book;
 
+    PROCEDURE PriceRaise(p_old_price IN NUMBER,p_percent   IN NUMBER,p_new_price OUT NUMBER,p_status    OUT VARCHAR2) IS
+    BEGIN
+        IF p_old_price > 300 THEN
+            p_new_price := p_old_price + (p_old_price * (p_percent / 100));
+            p_status := 'increase';
+        ELSE
+            p_new_price := p_old_price;
+            p_status := 'not increase';
+        END IF;
+    END PriceRaise;
+
+BEGIN
+    v_percent := :percent;   
+    FOR crow IN cc LOOP
+        PriceRaise(crow.price, v_percent, v_new_price, v_status);
+        IF v_status = 'increase' THEN
+            DBMS_OUTPUT.PUT_LINE(crow.book_id || ' ' || crow.book_name ||' Old price: ' || crow.price || ' increase: ' || v_percent || '% ' || 
+                                 ' new price: ' || v_new_price || ' ' || v_status);
+        ELSE
+            DBMS_OUTPUT.PUT_LINE(crow.book_id || ' ' || crow.book_name || ' Old price: ' || crow.price || ' ' || v_status);
+        END IF;   
+    END LOOP;
+END;
+</p>

@@ -1,3 +1,62 @@
 <p>
-  https://drive.google.com/file/d/11yrqkQQEJLUHB0yA5FljDxnqvWj6jbw6/view?usp=sharing
+  DECLARE
+    CURSOR c IS 
+    SELECT * FROM booking_detail ORDER BY book_id, book_item_no;    
+    v_cur_book_id    booking.book_id%TYPE := -1;
+    v_cust_name      customer1.cust_name%TYPE;
+    v_member_type    customer1.member_type%TYPE;
+    v_t_id           booking.t_id%TYPE;
+    v_menu_name      menu.menu_name%TYPE;
+    v_menu_price     menu.menu_price%TYPE;
+    v_item_total     NUMBER;
+    v_subtotal       NUMBER := 0;
+    v_discount       NUMBER := 0;
+    v_net_total      NUMBER := 0;
+
+    PROCEDURE print_summary IS
+    BEGIN
+        IF v_cur_book_id != -1 THEN
+            caldiscnt(v_member_type, v_subtotal, v_discount);
+            v_net_total := v_subtotal - v_discount;
+            DBMS_OUTPUT.PUT_LINE('-----------------------------------');
+            DBMS_OUTPUT.PUT_LINE('ยอดรวม : ' || v_subtotal || ' บาท');
+            DBMS_OUTPUT.PUT_LINE('ส่วนลด : ' || v_discount || ' บาท');
+            DBMS_OUTPUT.PUT_LINE('ยอดสุทธิ : ' || v_net_total || ' บาท');
+            DBMS_OUTPUT.PUT_LINE('=============================================');
+        END IF;
+    END;
+
+BEGIN
+    FOR rec IN c LOOP
+    
+        IF v_cur_book_id != rec.book_id THEN
+            print_summary;
+            v_cur_book_id := rec.book_id;
+            v_subtotal := 0;
+            SELECT c.cust_name, c.member_type, b.t_id
+            INTO v_cust_name, v_member_type, v_t_id
+            FROM booking b
+            JOIN customer1 c ON b.cust_id = c.cust_id
+            WHERE b.book_id = v_cur_book_id;
+
+            DBMS_OUTPUT.PUT_LINE('เลขที่การจอง : ' || v_cur_book_id);
+            DBMS_OUTPUT.PUT_LINE('ชื่อลูกค้า : ' || v_cust_name);
+            DBMS_OUTPUT.PUT_LINE('ประเภทลูกค้า : ' || v_member_type);
+            DBMS_OUTPUT.PUT_LINE('หมายเลขโต๊ะ : ' || v_t_id);
+            DBMS_OUTPUT.PUT_LINE('-----------------------------------');
+            DBMS_OUTPUT.PUT_LINE('ชื่อเมนู' || CHR(9) || 'ราคา' || CHR(9) || 'Qty' || CHR(9) || 'รวม');
+        END IF;
+    
+        SELECT menu_name, menu_price
+        INTO v_menu_name, v_menu_price
+        FROM menu
+        WHERE menu_id = rec.menu_id;
+        v_item_total := v_menu_price * rec.item_qty;
+        v_subtotal := v_subtotal + v_item_total;
+        
+        DBMS_OUTPUT.PUT_LINE(v_menu_name || CHR(9) || v_menu_price || CHR(9) || rec.item_qty || CHR(9) || v_item_total);
+    END LOOP;
+    print_summary;
+END;
+
 </p>

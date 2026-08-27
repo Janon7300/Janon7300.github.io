@@ -1,62 +1,637 @@
-<p>
-  DECLARE
-    CURSOR c IS 
-    SELECT * FROM booking_detail ORDER BY book_id, book_item_no;    
-    v_cur_book_id    booking.book_id%TYPE := -1;
-    v_cust_name      customer1.cust_name%TYPE;
-    v_member_type    customer1.member_type%TYPE;
-    v_t_id           booking.t_id%TYPE;
-    v_menu_name      menu.menu_name%TYPE;
-    v_menu_price     menu.menu_price%TYPE;
-    v_item_total     NUMBER;
-    v_subtotal       NUMBER := 0;
-    v_discount       NUMBER := 0;
-    v_net_total      NUMBER := 0;
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Portfolio ของ Janon7300 — เรียนรู้ สร้าง และพัฒนาไอเดียให้กลายเป็นผลงานบนเว็บ">
+  <meta name="theme-color" content="#10100f">
+  <meta property="og:title" content="Janon7300 — Developer Portfolio">
+  <meta property="og:description" content="เรียนรู้ สร้าง และพัฒนาไอเดียให้กลายเป็นผลงานบนเว็บ">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://janon7300.github.io/">
+  <title>Janon7300 — Developer Portfolio</title>
+  <style>
+    :root {
+      --bg: #10100f;
+      --bg-soft: #181816;
+      --card: #1d1d1a;
+      --text: #f5f1e8;
+      --muted: #a9a59d;
+      --line: rgba(245, 241, 232, .16);
+      --accent: #ff6846;
+      --accent-2: #c6ff4a;
+      --shadow: 0 28px 80px rgba(0, 0, 0, .28);
+      --radius: 22px;
+    }
 
-    PROCEDURE print_summary IS
-    BEGIN
-        IF v_cur_book_id != -1 THEN
-            caldiscnt(v_member_type, v_subtotal, v_discount);
-            v_net_total := v_subtotal - v_discount;
-            DBMS_OUTPUT.PUT_LINE('-----------------------------------');
-            DBMS_OUTPUT.PUT_LINE('ยอดรวม : ' || v_subtotal || ' บาท');
-            DBMS_OUTPUT.PUT_LINE('ส่วนลด : ' || v_discount || ' บาท');
-            DBMS_OUTPUT.PUT_LINE('ยอดสุทธิ : ' || v_net_total || ' บาท');
-            DBMS_OUTPUT.PUT_LINE('=============================================');
-        END IF;
-    END;
+    :root[data-theme="light"] {
+      --bg: #f3efe5;
+      --bg-soft: #e9e3d5;
+      --card: #fffaf0;
+      --text: #171714;
+      --muted: #625f58;
+      --line: rgba(23, 23, 20, .16);
+      --shadow: 0 28px 80px rgba(58, 45, 24, .12);
+    }
 
-BEGIN
-    FOR rec IN c LOOP
-    
-        IF v_cur_book_id != rec.book_id THEN
-            print_summary;
-            v_cur_book_id := rec.book_id;
-            v_subtotal := 0;
-            SELECT c.cust_name, c.member_type, b.t_id
-            INTO v_cust_name, v_member_type, v_t_id
-            FROM booking b
-            JOIN customer1 c ON b.cust_id = c.cust_id
-            WHERE b.book_id = v_cur_book_id;
+    * { box-sizing: border-box; }
 
-            DBMS_OUTPUT.PUT_LINE('เลขที่การจอง : ' || v_cur_book_id);
-            DBMS_OUTPUT.PUT_LINE('ชื่อลูกค้า : ' || v_cust_name);
-            DBMS_OUTPUT.PUT_LINE('ประเภทลูกค้า : ' || v_member_type);
-            DBMS_OUTPUT.PUT_LINE('หมายเลขโต๊ะ : ' || v_t_id);
-            DBMS_OUTPUT.PUT_LINE('-----------------------------------');
-            DBMS_OUTPUT.PUT_LINE('ชื่อเมนู' || CHR(9) || 'ราคา' || CHR(9) || 'Qty' || CHR(9) || 'รวม');
-        END IF;
-    
-        SELECT menu_name, menu_price
-        INTO v_menu_name, v_menu_price
-        FROM menu
-        WHERE menu_id = rec.menu_id;
-        v_item_total := v_menu_price * rec.item_qty;
-        v_subtotal := v_subtotal + v_item_total;
-        
-        DBMS_OUTPUT.PUT_LINE(v_menu_name || CHR(9) || v_menu_price || CHR(9) || rec.item_qty || CHR(9) || v_item_total);
-    END LOOP;
-    print_summary;
-END;
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 96px;
+    }
 
-</p>
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 82% 8%, rgba(255, 104, 70, .12), transparent 28rem),
+        var(--bg);
+      font-family: "Noto Sans Thai", "Leelawadee UI", Inter, system-ui, sans-serif;
+      line-height: 1.65;
+      transition: color .25s ease, background-color .25s ease;
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: .16;
+      pointer-events: none;
+      content: "";
+      background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, #000, transparent 70%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    ::selection { color: #10100f; background: var(--accent-2); }
+
+    .progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      z-index: 100;
+      width: 0;
+      height: 3px;
+      background: var(--accent);
+    }
+
+    .container {
+      width: min(1160px, calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--bg) 82%, transparent);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      color: #10100f;
+      background: var(--accent-2);
+      border-radius: 11px;
+      place-items: center;
+      transform: rotate(-5deg);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .nav-links a { transition: color .2s ease; }
+    .nav-links a:hover { color: var(--text); }
+
+    .theme-toggle {
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      color: var(--text);
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(330px, .8fr);
+      gap: clamp(48px, 7vw, 100px);
+      align-items: center;
+      min-height: calc(100vh - 73px);
+      padding-block: 78px;
+    }
+
+    .eyebrow, .section-index {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 20px;
+      color: var(--accent);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 30px;
+      height: 2px;
+      content: "";
+      background: currentColor;
+    }
+
+    h1 {
+      max-width: 820px;
+      margin: 0;
+      font-size: clamp(4.4rem, 11vw, 9.5rem);
+      font-weight: 900;
+      letter-spacing: -.085em;
+      line-height: .78;
+      text-transform: uppercase;
+    }
+
+    h1 span {
+      display: block;
+      margin-left: .42em;
+      color: transparent;
+      -webkit-text-stroke: 2px var(--text);
+    }
+
+    .hero-copy {
+      max-width: 610px;
+      margin: 36px 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.6vw, 1.18rem);
+    }
+
+    .hero-copy strong { color: var(--text); font-weight: 700; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 0 22px;
+      font-size: .92rem;
+      font-weight: 800;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+    }
+
+    .button:hover { transform: translateY(-3px); }
+    .button.primary { color: #10100f; background: var(--accent-2); border-color: var(--accent-2); }
+    .button.secondary:hover { border-color: var(--accent); }
+
+    .hero-visual { position: relative; }
+
+    .code-card {
+      position: relative;
+      overflow: hidden;
+      padding: 18px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transform: rotate(2deg);
+    }
+
+    .code-card::after {
+      position: absolute;
+      right: -50px;
+      bottom: -70px;
+      width: 180px;
+      height: 180px;
+      content: "";
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: .14;
+      filter: blur(5px);
+    }
+
+    .window-bar {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding-bottom: 17px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .dot { width: 9px; height: 9px; background: var(--muted); border-radius: 50%; }
+    .dot:first-child { background: var(--accent); }
+    .dot:last-of-type { background: var(--accent-2); }
+    .filename { margin-left: auto; color: var(--muted); font: 600 .72rem ui-monospace, monospace; }
+
+    pre {
+      min-height: 300px;
+      margin: 0;
+      padding: 28px 10px 10px;
+      white-space: pre-wrap;
+      font: 500 clamp(.78rem, 1.5vw, .92rem)/1.85 ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+
+    .code-muted { color: var(--muted); }
+    .code-orange { color: var(--accent); }
+    .code-green { color: var(--accent-2); }
+
+    .status-chip {
+      position: absolute;
+      right: -18px;
+      bottom: -22px;
+      z-index: 2;
+      padding: 12px 17px;
+      color: #10100f;
+      background: var(--accent-2);
+      border-radius: 14px;
+      font-size: .78rem;
+      font-weight: 900;
+      box-shadow: var(--shadow);
+      transform: rotate(-4deg);
+    }
+
+    section { padding-block: clamp(80px, 12vw, 150px); }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: .5fr 1.5fr;
+      gap: 30px;
+      margin-bottom: clamp(48px, 7vw, 82px);
+    }
+
+    h2 {
+      max-width: 850px;
+      margin: 0;
+      font-size: clamp(2.4rem, 5.8vw, 5.2rem);
+      letter-spacing: -.065em;
+      line-height: 1.02;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: .78fr 1.22fr;
+      gap: clamp(42px, 9vw, 120px);
+      align-items: start;
+    }
+
+    .profile-frame {
+      position: relative;
+      max-width: 340px;
+      aspect-ratio: 1;
+      padding: 12px;
+      background: var(--accent);
+      border-radius: 46% 54% 52% 48% / 57% 43% 57% 43%;
+      transform: rotate(-3deg);
+    }
+
+    .profile-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 8px solid var(--bg);
+      border-radius: inherit;
+      filter: grayscale(1) contrast(1.06);
+    }
+
+    .about-copy p {
+      max-width: 680px;
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: clamp(1.06rem, 2vw, 1.35rem);
+    }
+
+    .about-copy p:first-child { color: var(--text); font-size: clamp(1.3rem, 2.8vw, 1.85rem); }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 46px;
+      border-top: 1px solid var(--line);
+    }
+
+    .fact { padding: 22px 18px 0 0; }
+    .fact strong { display: block; color: var(--accent-2); font-size: 1.8rem; letter-spacing: -.05em; }
+    .fact span { color: var(--muted); font-size: .82rem; }
+
+    .toolbox { background: var(--bg-soft); }
+
+    .skill-list { border-top: 1px solid var(--line); }
+
+    .skill-row {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 28px;
+      align-items: center;
+      padding: 26px 0;
+      border-bottom: 1px solid var(--line);
+      transition: padding .2s ease, color .2s ease;
+    }
+
+    .skill-row:hover { padding-inline: 12px; color: var(--accent-2); }
+    .skill-number { color: var(--muted); font: 600 .78rem ui-monospace, monospace; }
+    .skill-name { font-size: clamp(1.35rem, 3vw, 2.45rem); font-weight: 800; letter-spacing: -.04em; }
+    .skill-use { color: var(--muted); font-size: .88rem; text-align: right; }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 20px;
+    }
+
+    .work-card {
+      position: relative;
+      display: flex;
+      min-height: 440px;
+      overflow: hidden;
+      padding: clamp(26px, 4vw, 48px);
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      flex-direction: column;
+      transition: transform .25s ease, border-color .25s ease;
+    }
+
+    .work-card:hover { border-color: var(--accent); transform: translateY(-6px); }
+    .work-card.accent { color: #10100f; background: var(--accent-2); border-color: var(--accent-2); }
+    .work-kicker { margin-bottom: auto; font: 700 .78rem ui-monospace, monospace; letter-spacing: .1em; text-transform: uppercase; }
+    .work-card h3 { max-width: 520px; margin: 70px 0 15px; font-size: clamp(2rem, 4vw, 3.8rem); letter-spacing: -.06em; line-height: .95; }
+    .work-card p { max-width: 530px; margin: 0; color: var(--muted); }
+    .work-card.accent p { color: rgba(16, 16, 15, .68); }
+    .work-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+    .tag { padding: 7px 11px; border: 1px solid currentColor; border-radius: 999px; font-size: .7rem; font-weight: 800; opacity: .75; }
+    .card-arrow { position: absolute; top: 30px; right: 30px; font-size: 1.8rem; transition: transform .2s ease; }
+    .work-card:hover .card-arrow { transform: translate(4px, -4px); }
+
+    .contact {
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .contact::before {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: -1;
+      width: min(700px, 80vw);
+      aspect-ratio: 1;
+      content: "";
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: .08;
+      filter: blur(40px);
+      transform: translate(-50%, -50%);
+    }
+
+    .contact .eyebrow { justify-content: center; }
+    .contact .eyebrow::before { display: none; }
+    .contact h2 { margin-inline: auto; }
+    .contact p { max-width: 600px; margin: 28px auto 0; color: var(--muted); font-size: 1.08rem; }
+    .contact .actions { justify-content: center; }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding-block: 28px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font-size: .78rem;
+    }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 850px) {
+      .nav-links a { display: none; }
+      .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 90px; }
+      .hero-visual { width: min(480px, 94%); margin-inline: auto; }
+      .section-head, .about-grid { grid-template-columns: 1fr; }
+      .profile-frame { width: min(280px, 76vw); }
+      .work-grid { grid-template-columns: 1fr; }
+      .work-card { min-height: 390px; }
+    }
+
+    @media (max-width: 560px) {
+      .container { width: min(100% - 26px, 1160px); }
+      .nav { min-height: 64px; }
+      .nav-links { gap: 12px; }
+      .hero { padding-block: 66px 90px; }
+      h1 { font-size: clamp(4.1rem, 23vw, 6.5rem); }
+      h1 span { margin-left: .15em; }
+      .code-card { transform: none; }
+      pre { min-height: 250px; }
+      .status-chip { right: 8px; }
+      .facts { grid-template-columns: 1fr; }
+      .fact { padding-block: 18px; border-bottom: 1px solid var(--line); }
+      .skill-row { grid-template-columns: 42px 1fr; gap: 12px; }
+      .skill-use { display: none; }
+      footer { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <nav class="nav container" aria-label="เมนูหลัก">
+      <a class="brand" href="#top" aria-label="กลับไปด้านบน">
+        <span class="brand-mark">J/</span>
+        <span>JANON7300</span>
+      </a>
+      <div class="nav-links">
+        <a href="#about">เกี่ยวกับฉัน</a>
+        <a href="#skills">ทักษะ</a>
+        <a href="#work">ผลงาน</a>
+        <button class="theme-toggle" type="button" aria-label="สลับโหมดสี" title="สลับโหมดสี">◐</button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <div class="hero container">
+      <div>
+        <p class="eyebrow">Developer in progress · Portfolio</p>
+        <h1>Janon <span>7300</span></h1>
+        <p class="hero-copy">
+          กำลังเรียนรู้การพัฒนาเว็บและฐานข้อมูล พร้อมเปลี่ยนทุกโจทย์ที่ได้ลองทำ
+          ให้กลายเป็น <strong>ผลงานที่ใช้งานได้จริงและดีขึ้นในทุกเวอร์ชัน</strong>
+        </p>
+        <div class="actions">
+          <a class="button primary" href="#work">ดูผลงาน ↓</a>
+          <a class="button secondary" href="https://github.com/Janon7300" target="_blank" rel="noreferrer">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-label="ตัวอย่างโค้ด">
+        <div class="code-card">
+          <div class="window-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="filename">portfolio.js</span>
+          </div>
+          <pre><span class="code-muted">01</span>  <span class="code-orange">const</span> developer = {
+<span class="code-muted">02</span>    username: <span class="code-green">'Janon7300'</span>,
+<span class="code-muted">03</span>    focus: [
+<span class="code-muted">04</span>      <span class="code-green">'Web Development'</span>,
+<span class="code-muted">05</span>      <span class="code-green">'Database & SQL'</span>,
+<span class="code-muted">06</span>      <span class="code-green">'Continuous Learning'</span>
+<span class="code-muted">07</span>    ],
+<span class="code-muted">08</span>    status: <span class="code-green">'building...'</span>
+<span class="code-muted">09</span>  };</pre>
+        </div>
+        <span class="status-chip">● OPEN TO LEARNING</span>
+      </div>
+    </div>
+
+    <section id="about">
+      <div class="container reveal">
+        <div class="section-head">
+          <p class="section-index">01 / About</p>
+          <h2>เริ่มจากความสงสัย<br>แล้วลงมือเขียนโค้ด</h2>
+        </div>
+        <div class="about-grid">
+          <div class="profile-frame">
+            <img src="https://avatars.githubusercontent.com/u/192424262?v=4" alt="รูปโปรไฟล์ GitHub ของ Janon7300" width="340" height="340">
+          </div>
+          <div class="about-copy">
+            <p>สวัสดี! นี่คือ Janon — นักพัฒนาที่กำลังสร้างพื้นฐานให้แข็งแรงผ่านการลงมือทำจริง</p>
+            <p>พื้นที่นี้เป็นทั้งพอร์ตโฟลิโอและบันทึกการเติบโต ตั้งแต่การออกแบบหน้าเว็บ ไปจนถึงการเขียนคำสั่งฐานข้อมูล ทุกโปรเจกต์คือโอกาสได้ฝึกคิด แก้ปัญหา และสร้างเวอร์ชันที่ดีกว่าเดิม</p>
+            <div class="facts" aria-label="ข้อมูลโดยย่อ">
+              <div class="fact"><strong>01</strong><span>Public repository</span></div>
+              <div class="fact"><strong>2024</strong><span>Started on GitHub</span></div>
+              <div class="fact"><strong>∞</strong><span>Things to learn</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="toolbox" id="skills">
+      <div class="container reveal">
+        <div class="section-head">
+          <p class="section-index">02 / Toolbox</p>
+          <h2>เครื่องมือที่กำลัง<br>ใช้สร้างไอเดีย</h2>
+        </div>
+        <div class="skill-list">
+          <div class="skill-row"><span class="skill-number">01</span><span class="skill-name">HTML & CSS</span><span class="skill-use">Structure / Interface</span></div>
+          <div class="skill-row"><span class="skill-number">02</span><span class="skill-name">JavaScript</span><span class="skill-use">Interaction / Logic</span></div>
+          <div class="skill-row"><span class="skill-number">03</span><span class="skill-name">SQL & PL/SQL</span><span class="skill-use">Data / Procedure</span></div>
+          <div class="skill-row"><span class="skill-number">04</span><span class="skill-name">Git & GitHub</span><span class="skill-use">Version / Publish</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="container reveal">
+        <div class="section-head">
+          <p class="section-index">03 / Selected work</p>
+          <h2>สิ่งที่กำลังสร้าง<br>และเรียนรู้อยู่</h2>
+        </div>
+        <div class="work-grid">
+          <a class="work-card" href="https://janon7300.github.io/" aria-label="เปิดเว็บไซต์ Portfolio">
+            <span class="work-kicker">Featured · 2026</span>
+            <span class="card-arrow">↗</span>
+            <h3>Personal Portfolio</h3>
+            <p>ออกแบบและพัฒนาเว็บไซต์ส่วนตัวแบบ responsive เพื่อรวบรวมตัวตน ทักษะ และเส้นทางการเรียนรู้ไว้ในที่เดียว</p>
+            <div class="work-meta"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">GitHub Pages</span></div>
+          </a>
+          <a class="work-card accent" href="https://github.com/Janon7300/Janon7300.github.io" target="_blank" rel="noreferrer" aria-label="ดู source code บน GitHub">
+            <span class="work-kicker">Source code</span>
+            <span class="card-arrow">↗</span>
+            <h3>Build in public.</h3>
+            <p>ติดตามการเปลี่ยนแปลงของเว็บไซต์ และดูโค้ดเบื้องหลังทุกเวอร์ชันได้บน GitHub</p>
+            <div class="work-meta"><span class="tag">VIEW REPOSITORY</span></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="container reveal">
+        <p class="eyebrow">04 / Say hello</p>
+        <h2>มาสร้างอะไรดี ๆ<br>ไปด้วยกัน</h2>
+        <p>หากสนใจผลงาน อยากแลกเปลี่ยนเรื่องการเขียนโค้ด หรือมีคำแนะนำใหม่ ๆ สามารถติดต่อผ่าน GitHub ได้เลย</p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/Janon7300" target="_blank" rel="noreferrer">ไปที่ GitHub ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    <span>© <span id="year">2026</span> Janon7300</span>
+    <span>Designed with curiosity · Built on GitHub Pages</span>
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const themeButton = document.querySelector('.theme-toggle');
+    const savedTheme = localStorage.getItem('portfolio-theme');
+
+    if (savedTheme) root.dataset.theme = savedTheme;
+
+    themeButton.addEventListener('click', () => {
+      const nextTheme = root.dataset.theme === 'light' ? 'dark' : 'light';
+      root.dataset.theme = nextTheme;
+      localStorage.setItem('portfolio-theme', nextTheme);
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
+
+    const progress = document.querySelector('.progress');
+    window.addEventListener('scroll', () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = `${scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0}%`;
+    }, { passive: true });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

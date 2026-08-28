@@ -2,6 +2,14 @@
 
 Personal developer portfolio hosted with GitHub Pages.
 
+## Pages
+
+- `/` — editable personal profile
+- `/projects/` — project index designed to grow beyond one project
+- `/projects/checknuaykit/` — full Check Nuay Kit product case study
+
+Personal placeholder copy and the profile image slot are marked with HTML comments in `index.html`. Shared colors, typography, layout, and responsive behavior live in `assets/site.css`; reveal and interaction motion live in `assets/site.js`.
+
 ## Featured project
 
 ### [Check Nuay Kit](https://checknuaykit.vercel.app/)

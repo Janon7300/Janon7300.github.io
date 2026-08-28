@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Case Study: Check Nuay Kit — จาก transcript PDF สู่แพลตฟอร์มวางแผนการเรียนแบบ local-first พร้อม SEO, lazy loading และ edge caching">
+  <meta name="theme-color" content="#ffcc42">
+  <meta property="og:title" content="Check Nuay Kit Case Study — Janon7300">
+  <meta property="og:description" content="เบื้องหลังการออกแบบและพัฒนา Check Nuay Kit ตั้งแต่ปัญหา การอ่าน PDF ไปจนถึง SEO และ performance">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://janon7300.github.io/projects/checknuaykit/">
+  <meta property="og:image" content="https://checknuaykit.vercel.app/p2.png">
+  <link rel="canonical" href="https://janon7300.github.io/projects/checknuaykit/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://checknuaykit.vercel.app">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Kodchasan:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+  <script src="../../assets/site.js" defer></script>
+  <title>Check Nuay Kit — Case Study</title>
+</head>
+<body class="case-page">
+  <a class="skip-link" href="#main">ข้ามไปเนื้อหา</a>
+  <header class="site-header">
+    <div class="header-inner wrap">
+      <a class="brand" href="../../">Janon <span>7300</span><b>DEV</b></a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav">MENU</button>
+      <nav id="site-nav" aria-label="เมนูหลัก">
+        <a href="../../">โปรไฟล์</a>
+        <a href="../">ผลงาน</a>
+        <a class="is-current" href="./" aria-current="page">กรณีศึกษา</a>
+        <a class="nav-github" href="https://github.com/Janon7300" target="_blank" rel="noreferrer">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="case-hero wrap" data-reveal>
+      <div class="case-title">
+        <p class="eyebrow"><span></span> CASE STUDY / 01 · 2026</p>
+        <h1>Check<br><em>Nuay</em> Kit</h1>
+        <p>รู้ว่าขาดวิชาอะไร ก่อนจะวางแผนเทอมถัดไป</p>
+      </div>
+      <div class="case-poster" data-tilt>
+        <div class="poster-head mono"><span>STUDENT PRODUCT</span><span>LIVE / V.1</span></div>
+        <img src="https://checknuaykit.vercel.app/p2.png" alt="โลโก้ Check Nuay Kit" width="104" height="104">
+        <p>หนึ่งโปรเจกต์<br>แต่แก้หลายปัญหา</p>
+        <a href="https://checknuaykit.vercel.app/" target="_blank" rel="noreferrer">เปิดเว็บไซต์จริง ↗</a>
+      </div>
+      <dl class="case-meta">
+        <div><dt>ROLE</dt><dd>Product design<br>Full-stack development</dd></div>
+        <div><dt>PLATFORM</dt><dd>Responsive web app</dd></div>
+        <div><dt>STATUS</dt><dd>Actively developing</dd></div>
+      </dl>
+    </section>
+
+    <section class="case-section problem-section wrap" data-reveal>
+      <header class="section-heading">
+        <p class="mono">01 / THE PROBLEM</p>
+        <h2>ข้อมูลที่นักศึกษาต้องใช้<br>ไม่ได้อยู่ในที่เดียวกัน</h2>
+      </header>
+      <div class="problem-flow" aria-label="จากข้อมูลกระจัดกระจายสู่แพลตฟอร์มเดียว">
+        <div class="scatter-cards">
+          <span style="--r:-5deg">TRANSCRIPT.PDF</span>
+          <span style="--r:4deg">รีวิวจากรุ่นพี่</span>
+          <span style="--r:-2deg">ข่าวมหาวิทยาลัย</span>
+          <span style="--r:6deg">แผนหลักสูตร</span>
+        </div>
+        <div class="flow-arrow"><i></i><b>รวม + แปลความ</b></div>
+        <div class="solution-card">
+          <img src="https://checknuaykit.vercel.app/p2.png" alt="" width="72" height="72" loading="lazy">
+          <strong>ONE STUDENT<br>WORKSPACE</strong>
+        </div>
+      </div>
+      <p class="case-lead">แทนที่จะสร้างเว็บที่มีเพียงฟีเจอร์เดียว ผมออกแบบแกนกลางให้ช่วยนักศึกษาตั้งแต่ “ตอนนี้ขาดอะไร” ไปจนถึง “ควรลงอะไรต่อ” และเชื่อมข้อมูลที่ใช้ตัดสินใจไว้ในประสบการณ์เดียว</p>
+    </section>
+
+    <section class="case-section wrap" data-reveal>
+      <header class="section-heading split-heading">
+        <p class="mono">02 / PRODUCT SCOPE</p>
+        <h2>สี่เครื่องมือ<br>หนึ่งเป้าหมาย</h2>
+        <p>ลดเวลาตามหาข้อมูล และทำให้การวางแผนเรียนมีหลักฐานประกอบมากขึ้น</p>
+      </header>
+      <div class="feature-grid">
+        <article class="feature-card coral"><span class="mono">01 / PDF</span><strong>เช็กหน่วยกิต<br>จาก Transcript</strong><p>อ่านไฟล์ในเครื่อง แล้วเทียบความคืบหน้ากับกฎของหลักสูตร</p></article>
+        <article class="feature-card yellow"><span class="mono">02 / COMMUNITY</span><strong>เลือกวิชา<br>จากเสียงคนเรียนจริง</strong><p>ค้นด้วยรหัสวิชาหรือแฮชแท็ก เพื่อดูรีวิวก่อนตัดสินใจ</p></article>
+        <article class="feature-card blue"><span class="mono">03 / CAMPUS</span><strong>ตามข่าว<br>ที่เกี่ยวกับเรา</strong><p>รวมประกาศและเรื่องสำคัญให้ติดตามได้จากหน้าเดียว</p></article>
+        <article class="feature-card paper"><span class="mono">04 / AI</span><strong>ถามต่อ<br>เมื่อข้อมูลยังไม่พอ</strong><p>ผู้ช่วย AI เติมบริบทและพาไปยังคำตอบที่ต้องการเร็วขึ้น</p></article>
+      </div>
+    </section>
+
+    <section class="case-section process-section" data-reveal>
+      <div class="wrap">
+        <header class="section-heading light-heading">
+          <p class="mono">03 / PROCESS</p>
+          <h2>ไม่ได้เริ่มจากเทคโนโลยี<br>เริ่มจากลำดับการตัดสินใจ</h2>
+        </header>
+        <ol class="process-line">
+          <li><span>01</span><strong>Discover</strong><p>มองหาจุดที่ข้อมูลขาดช่วง และงานที่นักศึกษาต้องทำซ้ำ</p></li>
+          <li><span>02</span><strong>Shape</strong><p>เปลี่ยนปัญหาเป็น flow ที่สั้นและเข้าใจได้</p></li>
+          <li><span>03</span><strong>Build</strong><p>แยก UI, parser, API และ data ให้พัฒนาได้เป็นส่วน</p></li>
+          <li><span>04</span><strong>Validate</strong><p>ทดสอบข้อมูลจริง ความผิดพลาด และอุปกรณ์หลายขนาด</p></li>
+          <li><span>05</span><strong>Iterate</strong><p>วัดผล ปรับ SEO และเพิ่มฟีเจอร์ตามการใช้งาน</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="case-section wrap pdf-section" data-reveal>
+      <header class="section-heading split-heading">
+        <p class="mono">04 / LOCAL PDF ENGINE</p>
+        <h2>แกะ Transcript<br>โดยไฟล์ไม่ต้องออกจากเครื่อง</h2>
+        <p>งานยากไม่ใช่แค่ “อ่าน PDF” แต่คือการรักษาโครงสร้างตาราง ซ่อมข้อความภาษาไทย และแปลงผลลัพธ์ให้ตอบกฎหลักสูตรได้</p>
+      </header>
+      <div class="pipeline" aria-label="ขั้นตอนประมวลผล PDF">
+        <div><span class="mono">INPUT</span><strong>PDF<br>ในเครื่อง</strong></div>
+        <i>→</i><div><span class="mono">PDF.JS</span><strong>อ่าน text<br>+ position</strong></div>
+        <i>→</i><div><span class="mono">REBUILD</span><strong>ประกอบตาราง<br>+ ซ่อมภาษาไทย</strong></div>
+        <i>→</i><div class="pipeline-result"><span class="mono">RULE ENGINE</span><strong>เหลืออะไร<br>ต้องเรียนต่อ</strong></div>
+      </div>
+      <div class="privacy-note"><b>LOCAL-FIRST</b><p>ข้อมูล Transcript ถูกประมวลผลในเบราว์เซอร์ ช่วยลดการส่งข้อมูลการเรียนที่ไม่จำเป็นออกไปยังเซิร์ฟเวอร์</p></div>
+    </section>
+
+    <section class="case-section seo-section wrap" data-reveal>
+      <header class="section-heading">
+        <p class="mono">05 / DISCOVERABILITY</p>
+        <h2>สร้างเว็บเสร็จ<br>ยังไม่เท่ากับคนค้นเจอ</h2>
+      </header>
+      <div class="search-demo">
+        <div class="search-box">
+          <span class="mono">GOOGLE</span>
+          <div>รีวิววิชา PSU <b>|</b><i>⌕</i></div>
+        </div>
+        <div class="search-result">
+          <small>checknuaykit.vercel.app › reviews › course</small>
+          <strong>รีวิวรายวิชา PSU — Check Nuay Kit</strong>
+          <p>รายละเอียดรายวิชา รีวิวจากผู้เรียน และข้อมูลที่ช่วยตัดสินใจก่อนลงทะเบียน</p>
+        </div>
+      </div>
+      <ul class="seo-checklist">
+        <li><b>01</b><span>Meta + Canonical</span><small>title, description และ URL ที่ชัดเจนในแต่ละหน้า</small></li>
+        <li><b>02</b><span>Open Graph + Twitter</span><small>แชร์ลิงก์แล้วมีข้อมูลและภาพประกอบครบ</small></li>
+        <li><b>03</b><span>JSON-LD</span><small>structured data สำหรับหน้ารายวิชาและรีวิว</small></li>
+        <li><b>04</b><span>Sitemaps</span><small>ทั้งไฟล์คงที่และ sitemap รายวิชาที่สร้างแบบ dynamic</small></li>
+        <li><b>05</b><span>Robots + llms.txt</span><small>บอก crawler ว่าส่วนใดอ่านได้และเนื้อหาคืออะไร</small></li>
+      </ul>
+    </section>
+
+    <section class="case-section delivery-section" data-reveal>
+      <div class="wrap">
+        <header class="section-heading split-heading light-heading">
+          <p class="mono">06 / PERFORMANCE</p>
+          <h2>โหลดเท่าที่ต้องใช้<br>ส่งจากจุดที่ใกล้กว่า</h2>
+          <p>แยกงานที่เบราว์เซอร์ต้องดาวน์โหลด จัด cache ตามความสดของข้อมูล และใช้ CDN สำหรับรูปภาพ</p>
+        </header>
+        <div class="delivery-map" aria-label="เส้นทางการส่งข้อมูล">
+          <div class="delivery-node"><span>01</span><strong>BROWSER</strong><small>React.lazy<br>Suspense skeleton</small></div>
+          <div class="delivery-path"><i></i><i></i><i></i></div>
+          <div class="delivery-node accent"><span>02</span><strong>EDGE CACHE</strong><small>10–30s public data<br>SWR 120–300s</small></div>
+          <div class="delivery-path"><i></i><i></i><i></i></div>
+          <div class="delivery-node"><span>03</span><strong>FUNCTIONS</strong><small>Vercel API<br>rate limiting</small></div>
+          <div class="delivery-path"><i></i><i></i><i></i></div>
+          <div class="delivery-node"><span>04</span><strong>DATA / MEDIA</strong><small>Firestore<br>Cloudinary WebP</small></div>
+        </div>
+        <div class="performance-notes">
+          <article><span class="mono">LAZY</span><h3>Routes + modals</h3><p>หน้าหลักและ modal ขนาดใหญ่ถูกแยกโหลดด้วย React.lazy พร้อม fallback ที่ไม่ทำให้หน้าจอว่าง</p></article>
+          <article><span class="mono">CHUNKS</span><h3>Vite build</h3><p>แยก React, router และ icon ออกเป็น manual chunks เพื่อใช้ cache ซ้ำได้ดีขึ้น</p></article>
+          <article><span class="mono">MEDIA</span><h3>Image pipeline</h3><p>รูปถูกตรวจขนาด บีบอัด แปลงเป็น WebP และส่งผ่าน Cloudinary CDN</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section stack-section wrap" data-reveal>
+      <header class="section-heading">
+        <p class="mono">07 / TECHNOLOGY</p>
+        <h2>เทคโนโลยีถูกเลือก<br>ตามหน้าที่ของมัน</h2>
+      </header>
+      <div class="stack-grid">
+        <article><span>01</span><h3>Interface</h3><p>React · TypeScript · Vite · CSS motion · Intersection Observer</p></article>
+        <article><span>02</span><h3>Platform</h3><p>Vercel Functions · Firebase / Firestore · Upstash Redis</p></article>
+        <article><span>03</span><h3>Documents</h3><p>PDF.js · local parsing · curriculum rule engine</p></article>
+        <article><span>04</span><h3>Delivery</h3><p>Edge cache · Cloudinary CDN · WebP · dynamic sitemap</p></article>
+      </div>
+    </section>
+
+    <section class="case-outro">
+      <div class="wrap" data-reveal>
+        <p class="mono">FROM PROBLEM → PRODUCT</p>
+        <h2>นี่ไม่ใช่แค่เว็บเช็กหน่วยกิต<br>แต่คือการออกแบบระบบ<br>ให้ข้อมูลที่ยุ่งยาก <em>ใช้งานได้จริง</em></h2>
+        <div class="button-row centered">
+          <a class="button button-primary" href="https://checknuaykit.vercel.app/" target="_blank" rel="noreferrer">ลองใช้เว็บไซต์ ↗</a>
+          <a class="button button-secondary" href="../">กลับไปดูผลงาน</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <p>Janon7300 © 2026</p><a class="mono" href="../../">กลับหน้าโปรไฟล์ ↑</a>
+  </footer>
+</body>
+</html>

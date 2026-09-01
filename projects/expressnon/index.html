@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Case Study: expressnon เว็บส่งไฟล์ ข้อความ และโค้ดข้ามเครื่องด้วยรหัส 6 ตัว โดยใช้ WebRTC ส่งข้อมูลตรงระหว่างเบราว์เซอร์">
+  <meta name="theme-color" content="#13110f">
+  <meta property="og:title" content="expressnon Case Study — Janon7300">
+  <meta property="og:description" content="เบื้องหลังการออกแบบระบบแชร์ข้อมูลแบบ peer-to-peer ตั้งแต่ UX รหัส 6 ตัว ไปจนถึง WebRTC, signaling และการป้องกัน abuse">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://janon7300.github.io/projects/expressnon/">
+  <link rel="canonical" href="https://janon7300.github.io/projects/expressnon/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Kodchasan:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+  <script src="../../assets/site.js" defer></script>
+  <title>expressnon Case Study</title>
+</head>
+<body class="case-page express-case">
+  <a class="skip-link" href="#main">ข้ามไปเนื้อหา</a>
+  <header class="site-header">
+    <div class="header-inner wrap">
+      <a class="brand" href="../../">Janon <span>7300</span><b>DEV</b></a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav">MENU</button>
+      <nav id="site-nav" aria-label="เมนูหลัก">
+        <a href="../../">Profile</a>
+        <a class="is-current" href="../">Projects</a>
+        <a class="nav-github" href="https://github.com/Janon7300" target="_blank" rel="noreferrer">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="case-hero express-hero wrap" data-reveal>
+      <div class="case-title">
+        <p class="eyebrow"><span></span> PROJECT 02 · SHIPPED</p>
+        <h1>express<em>non</em></h1>
+        <p>Make two browsers meet.<br>Let the data travel directly.</p>
+      </div>
+      <div class="case-poster express-poster" data-tilt>
+        <div class="poster-head mono"><span>PEER-TO-PEER</span><span>LIVE</span></div>
+        <div class="express-wordmark">express<span>non</span></div>
+        <p>Share files,<br>not a cloud copy.</p>
+        <div class="poster-code" aria-label="ตัวอย่างรหัสหกตัว"><i>E</i><i>X</i><i>P</i><i>2</i><i>P</i><i>6</i></div>
+        <a href="https://expressnon.vercel.app/" target="_blank" rel="noreferrer">Open expressnon ↗</a>
+      </div>
+      <dl class="case-meta">
+        <div><dt>ROLE</dt><dd>Product design + Full-stack</dd></div>
+        <div><dt>CORE</dt><dd>WebRTC DataChannel</dd></div>
+        <div><dt>DELIVERY</dt><dd>Vercel + Firebase + Upstash</dd></div>
+      </dl>
+    </section>
+
+    <section class="case-section wrap" data-reveal>
+      <header class="section-heading split-heading">
+        <p class="mono">THE PROBLEM 01</p>
+        <h2>Sharing a file<br>often creates another copy.</h2>
+        <p>Email has limits. Chat leaves an attachment behind. Cloud drives add uploads, accounts, permissions, and cleanup before a nearby device receives anything.</p>
+      </header>
+      <div class="express-problem">
+        <article><span class="mono">OLD FLOW</span><strong>Upload → wait → share → download → delete</strong><p>The service becomes a warehouse even when users only need a temporary bridge.</p></article>
+        <div class="problem-switch" aria-hidden="true"><i></i><b>RETHINK</b><i></i></div>
+        <article class="accent"><span class="mono">EXPRESSNON</span><strong>Meet → connect → send directly</strong><p>The room is a rendezvous point, not storage for the payload.</p></article>
+      </div>
+    </section>
+
+    <section class="case-section express-dark-section" data-reveal>
+      <div class="wrap">
+        <header class="section-heading split-heading light-heading">
+          <p class="mono">PRODUCT FLOW 02</p>
+          <h2>One short code.<br>Four clear moments.</h2>
+          <p>No account setup and no complicated room link. The interface keeps the technical handshake behind a six-character code.</p>
+        </header>
+        <ol class="express-flow">
+          <li><span>01</span><strong>Choose</strong><p>Select up to 20 files / 100 MB, or paste text and code.</p></li>
+          <li><span>02</span><strong>Create</strong><p>Choose 1–5 recipients and create a six-character room code.</p></li>
+          <li><span>03</span><strong>Connect</strong><p>The receiver enters the code while temporary signaling introduces both browsers.</p></li>
+          <li><span>04</span><strong>Transfer</strong><p>WebRTC carries the payload directly, with progress visible for each recipient.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="case-section wrap" data-reveal>
+      <header class="section-heading split-heading">
+        <p class="mono">SYSTEM DESIGN 03</p>
+        <h2>The server introduces.<br>The browsers deliver.</h2>
+        <p>Separating coordination from payload transfer makes the privacy claim concrete: infrastructure handles only what is needed to establish the peer connection.</p>
+      </header>
+      <div class="architecture-board" aria-label="สถาปัตยกรรมการส่งข้อมูลของ expressnon">
+        <div class="architecture-peer sender"><span class="mono">SENDER</span><strong>Browser A</strong><small>Files / text / code</small></div>
+        <div class="architecture-direct">
+          <p class="mono">PAYLOAD · WEBRTC DATACHANNEL</p>
+          <div><i></i><i></i><i></i><i></i><i></i></div>
+          <b>DIRECT BROWSER-TO-BROWSER</b>
+        </div>
+        <div class="architecture-peer receiver"><span class="mono">RECEIVER</span><strong>Browser B</strong><small>Receives and saves</small></div>
+        <div class="architecture-control">
+          <span class="mono">CONTROL PLANE</span>
+          <div><b>Vercel Functions</b><small>Verify requests</small></div>
+          <div><b>Upstash Redis</b><small>Code + rate limits</small></div>
+          <div><b>Firebase RTDB</b><small>Temporary SDP / ICE</small></div>
+          <p>Coordination metadata expires. File and text content never becomes server storage.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section wrap" data-reveal>
+      <header class="section-heading">
+        <p class="mono">ENGINEERING 04</p>
+        <h2>The difficult part begins<br>after “connect.”</h2>
+      </header>
+      <div class="feature-grid express-feature-grid">
+        <article class="feature-card coral"><span class="mono">01 · STREAM</span><strong>Chunk without freezing</strong><p>Payloads are split into 16 KB chunks. A buffered-amount high-water mark applies backpressure instead of filling browser memory without control.</p></article>
+        <article class="feature-card yellow"><span class="mono">02 · MULTI-PEER</span><strong>One room, independent receivers</strong><p>Each of the 1–5 recipients gets an individual connection, state, and progress path so one slow peer does not hide everyone else's status.</p></article>
+        <article class="feature-card blue"><span class="mono">03 · LIFECYCLE</span><strong>Temporary by default</strong><p>Codes expire after ten minutes, the sender stays present during transfer, and cleanup removes stale signaling metadata.</p></article>
+        <article class="feature-card paper"><span class="mono">04 · FAILURE</span><strong>Timeouts users can understand</strong><p>Connection and signaling timeouts turn network uncertainty into visible states: connecting, queued, sending, done, or failed.</p></article>
+      </div>
+    </section>
+
+    <section class="case-section express-security-section" data-reveal>
+      <div class="wrap">
+        <header class="section-heading split-heading light-heading">
+          <p class="mono">SECURITY 05</p>
+          <h2>Protect the meeting point.<br>Keep the payload out.</h2>
+          <p>The security story is layered and specific. It avoids promising that peer-to-peer means invulnerable.</p>
+        </header>
+        <div class="security-layers">
+          <article><span>EDGE</span><strong>CSP + security headers</strong><p>Restrictive content, frame, referrer, permission, isolation, and HTTPS policies reduce the browser attack surface.</p></article>
+          <article><span>REQUEST</span><strong>Origin + size validation</strong><p>Same-origin checks, JSON-only requests, and an 8 KB body ceiling reject malformed API traffic early.</p></article>
+          <article><span>IDENTITY</span><strong>Anonymous Auth + App Check</strong><p>Clients prove an app session without adding a signup wall to the product flow.</p></article>
+          <article><span>ABUSE</span><strong>IP + UID rate limits</strong><p>Upstash counters protect ingress and actions. Production fails closed if the limiter is unavailable.</p></article>
+          <article><span>ROOM</span><strong>Bounded membership</strong><p>One to five receiver slots, short expiry, and random transfer tokens limit room lifetime and reuse.</p></article>
+          <article><span>DATA</span><strong>No payload storage</strong><p>Firestore and Storage deny all because neither service is used as a file bucket.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section wrap" data-reveal>
+      <header class="section-heading split-heading">
+        <p class="mono">HONEST BOUNDARIES 06</p>
+        <h2>Privacy has limits.<br>Say them clearly.</h2>
+        <p>Good product communication includes what the architecture cannot guarantee, not only what it does well.</p>
+      </header>
+      <div class="boundary-grid">
+        <article><b>01</b><strong>STUN is not universal</strong><p>Some enterprise, campus, or strict NAT networks may need a TURN relay, so a connection is not guaranteed everywhere yet.</p></article>
+        <article><b>02</b><strong>The sender stays online</strong><p>Because there is no uploaded copy waiting on a server, the sender's browser must remain open until recipients finish.</p></article>
+        <article><b>03</b><strong>Recipients can keep data</strong><p>Peer-to-peer limits server storage; it cannot stop an intended recipient from saving or forwarding what they receive.</p></article>
+        <article><b>04</b><strong>The browser is not antivirus</strong><p>Users still need to trust the sender and scan suspicious files. Transport privacy is not content safety.</p></article>
+      </div>
+    </section>
+
+    <section class="case-section stack-section wrap" data-reveal>
+      <header class="section-heading">
+        <p class="mono">TECHNOLOGY 07</p>
+        <h2>Every tool has<br>a narrow responsibility.</h2>
+      </header>
+      <div class="stack-grid">
+        <article><span>01</span><h3>Interface</h3><p>React 18 · TypeScript · Vite · Tailwind CSS · Kodchasan</p></article>
+        <article><span>02</span><h3>Transfer</h3><p>WebRTC DataChannel · chunking · backpressure · per-peer progress</p></article>
+        <article><span>03</span><h3>Coordination</h3><p>Vercel Functions · Firebase Auth / App Check / RTDB · Upstash Redis</p></article>
+        <article><span>04</span><h3>Verification</h3><p>Vitest · Firebase Rules tests · ESLint · TypeScript · production build</p></article>
+      </div>
+    </section>
+
+    <section class="case-outro express-outro">
+      <div class="wrap" data-reveal>
+        <p class="mono">A ROOM, NOT A WAREHOUSE</p>
+        <h2>expressnon turns a complicated peer connection into <em>six characters and one clear flow.</em></h2>
+        <div class="button-row centered">
+          <a class="button button-primary" href="https://expressnon.vercel.app/" target="_blank" rel="noreferrer">Try expressnon ↗</a>
+          <a class="button button-secondary" href="../">View all projects →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <p>Janon7300 © 2026</p><a class="mono" href="../">← Back to Projects</a>
+  </footer>
+</body>
+</html>

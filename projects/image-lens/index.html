@@ -122,8 +122,32 @@
     </section>
   </main>
 
-  <footer class="site-footer wrap">
-    <p>Janon7300 © 2026</p><a class="mono" href="../">← Back to Projects</a>
+  <footer class="site-footer-shell">
+    <section class="footer-support wrap" aria-labelledby="support-heading" lang="en">
+      <div class="support-copy">
+        <p class="mono support-kicker">A LITTLE SUPPORT</p>
+        <h2 id="support-heading">Enjoy my work?</h2>
+        <p>If you find my projects useful, you can buy me a coffee. Any amount is appreciated.</p>
+      </div>
+      <div class="support-action" id="kofi-support">
+        <a class="button support-fallback" id="kofi-fallback" href="https://ko-fi.com/janondev" target="_blank" rel="noopener noreferrer">☕ Buy me a coffee ↗</a>
+        <script src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
+        <script>
+          if (typeof kofiwidget2 !== 'undefined') {
+            kofiwidget2.init('Buy me a coffee', '#d65708', 'C8I326ZFPM');
+            kofiwidget2.draw();
+            document.addEventListener('DOMContentLoaded', function () {
+              if (document.querySelector('#kofi-support a:not(#kofi-fallback)')) {
+                document.getElementById('kofi-fallback').hidden = true;
+              }
+            }, { once: true });
+          }
+        </script>
+      </div>
+    </section>
+    <div class="site-footer wrap">
+      <p>Janon7300 © 2026</p><p class="mono">DESIGNED &amp; BUILT WITH INTENT</p>
+    </div>
   </footer>
 </body>
 </html>

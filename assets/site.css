@@ -87,7 +87,8 @@ nav a:hover::after, nav a.is-current::after { transform: scaleX(1); transform-or
 .profile-next a span { color: var(--coral); }
 
 /* Support */
-.profile-support { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 28px; padding-block: 52px; border-bottom: 1px solid var(--ink); }
+.site-footer-shell { color: var(--ink); background: var(--canvas); }
+.footer-support { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 28px; padding-block: 52px; border-bottom: 1px solid var(--ink); }
 .support-copy { flex: 1 1 300px; max-width: 680px; }
 .support-kicker { margin: 0 0 12px; color: #a34106; font-size: .65rem; font-weight: 700; }
 .support-copy h2 { margin: 0 0 12px; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.2; letter-spacing: -.05em; }

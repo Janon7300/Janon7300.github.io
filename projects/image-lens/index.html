@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Image Lens — ส่วนขยายเบราว์เซอร์แปลข้อความในภาพเป็นภาษาไทยหรืออังกฤษด้วย AI พร้อมแสดงผลบนหน้าเว็บ">
+  <meta name="theme-color" content="#f1f1ed">
+  <meta property="og:title" content="Image Lens Case Study — Janon7300">
+  <meta property="og:description" content="ส่วนขยายโอเพนซอร์สสำหรับอ่านข้อความในภาพ ด้วย AI ที่ผู้ใช้เลือก รองรับ Chrome, Edge และ Firefox Desktop">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://janon7300.github.io/projects/image-lens/">
+  <link rel="canonical" href="https://janon7300.github.io/projects/image-lens/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Kodchasan:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+  <script src="../../assets/site.js" defer></script>
+  <title>Image Lens Case Study — Janon7300</title>
+</head>
+<body class="case-page lens-case">
+  <a class="skip-link" href="#main">ข้ามไปเนื้อหา</a>
+  <header class="site-header">
+    <div class="header-inner wrap">
+      <a class="brand" href="../../">Janon <span>7300</span><b>DEV</b></a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav">MENU</button>
+      <nav id="site-nav" aria-label="เมนูหลัก">
+        <a href="../../">Profile</a>
+        <a class="is-current" href="../">Projects</a>
+        <a class="nav-github" href="https://github.com/Janon7300" target="_blank" rel="noreferrer">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="case-hero wrap" data-reveal>
+      <div class="case-title">
+        <p class="eyebrow"><span></span> PROJECT 03 · BROWSER EXTENSION</p>
+        <h1>Image<em>Lens</em></h1>
+        <p>Read beyond the image.<br>Stay on the page.</p>
+      </div>
+      <div class="case-poster lens-poster" data-tilt>
+        <div class="poster-head mono"><span>IMAGE TRANSLATOR</span><span>EXPERIMENTAL</span></div>
+        <div class="lens-sample" role="img" aria-label="ตัวอย่างแนวคิดการแปล HELLO เป็น สวัสดี"><span lang="en">HELLO</span><strong lang="th">สวัสดี</strong></div>
+        <p>Your images.<br>Your AI provider.</p>
+        <a href="https://github.com/Janon7300/image-lens" target="_blank" rel="noreferrer">Explore Image Lens ↗</a>
+      </div>
+      <dl class="case-meta">
+        <div><dt>PLATFORM</dt><dd>Chrome / Edge / Firefox Desktop</dd></div>
+        <div><dt>CORE</dt><dd>Image text → AI translation → Overlay / Panel</dd></div>
+        <div><dt>STATUS</dt><dd>Experimental · Open source · MIT</dd></div>
+      </dl>
+    </section>
+
+    <section class="case-section wrap" data-reveal>
+      <header class="section-heading split-heading">
+        <p class="mono">THE IDEA 01</p>
+        <h2>Text in an image.<br>A break in the reading flow.</h2>
+        <p>Text embedded in an image cannot be selected like ordinary webpage text. Image Lens brings translation into the page so readers can keep the original in view.</p>
+      </header>
+      <div class="feature-grid">
+        <article class="feature-card blue"><span class="mono">01 · READ IN PLACE</span><strong>Overlay or panel</strong><p>Read translated text in boxes over the image or in a separate panel. Toggle the original view to compare it with the translation.</p></article>
+        <article class="feature-card yellow"><span class="mono">02 · KEEP READING</span><strong>Translate after scrolling</strong><p>Start a translation manually, or enable the optional mode that translates when scrolling stops. Turn it off whenever you want.</p></article>
+        <article class="feature-card paper"><span class="mono">03 · CHOOSE YOUR AI</span><strong>Bring your own provider</strong><p>Configure a compatible image-capable model through a Chat Completions endpoint, including Gemini or OpenAI. Fetch model names and test with a sample image before reading.</p></article>
+        <article class="feature-card coral"><span class="mono">04 · TWO TARGET LANGUAGES</span><strong>Thai or English</strong><p>Choose the language you want to read. Source-language recognition and translation quality depend on the selected model and the image.</p></article>
+      </div>
+    </section>
+
+    <section class="case-section process-section" data-reveal>
+      <div class="wrap">
+        <header class="section-heading light-heading">
+          <p class="mono">PRODUCT FLOW 02</p>
+          <h2>From setup<br>to reading in context.</h2>
+        </header>
+        <ol class="process-line">
+          <li><span>01</span><strong>Load</strong><p>Install the desktop extension from source. HTML, CSS, and JavaScript run without a build step.</p></li>
+          <li><span>02</span><strong>Configure</strong><p>Add your API endpoint and key, choose an image-capable model, and test it with the sample image.</p></li>
+          <li><span>03</span><strong>Enable</strong><p>Choose Thai or English, consent to sending images, and open the translator on a webpage.</p></li>
+          <li><span>04</span><strong>Translate</strong><p>The visible webpage screenshot goes directly to the configured AI provider for text recognition and translation.</p></li>
+          <li><span>05</span><strong>Read</strong><p>View the result over the image or in a panel. Switch back to the original whenever needed.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="case-section wrap" data-reveal>
+      <header class="section-heading split-heading">
+        <p class="mono">ENGINEERING 03</p>
+        <h2>One reading tool.<br>Two browser packages.</h2>
+        <p>A dependency-free extension built with standard web technologies, with separate manifests for Chromium and Firefox.</p>
+      </header>
+      <div class="feature-grid">
+        <article class="feature-card blue"><span class="mono">CHROME / EDGE</span><strong>Manifest V3</strong><p>Load the chromium folder using Developer mode and Load unpacked. The current source package requires Chromium 116 or newer.</p></article>
+        <article class="feature-card paper"><span class="mono">FIREFOX DESKTOP</span><strong>Manifest V2</strong><p>Load firefox/manifest.json as a Temporary Add-on in Firefox 140 or newer. This source installation needs to be loaded again after restarting Firefox.</p></article>
+      </div>
+      <aside class="privacy-note">
+        <b>DIRECT TO PROVIDER</b>
+        <p>The entire visible webpage screenshot is sent to the AI service you configure. There is no developer-operated image server or analytics. API keys normally stay in session storage; translation is an online operation using your own provider quota.</p>
+      </aside>
+    </section>
+
+    <section class="case-section wrap" data-reveal>
+      <header class="section-heading">
+        <p class="mono">CURRENT SCOPE 04</p>
+        <h2>An experimental tool,<br>with room to improve.</h2>
+      </header>
+      <div class="boundary-grid">
+        <article><b>01</b><strong>Model-dependent results</strong><p>Text recognition, translation, and placement depend on image quality and the chosen model. The extension does not erase original text or reconstruct image backgrounds.</p></article>
+        <article><b>02</b><strong>Source installation</strong><p>The repository provides desktop source packages. Firefox installation is temporary, and some browser-protected pages cannot run the translator.</p></article>
+        <article><b>03</b><strong>Own API key</strong><p>Users configure their own provider and model. Test calls and translations can consume quota or incur provider charges.</p></article>
+        <article><b>04</b><strong>Validation so far</strong><p>The README reports syntax and request/response checks. Translation quality with a live API has not yet been confirmed for this package.</p></article>
+      </div>
+    </section>
+
+    <section class="case-outro" data-reveal>
+      <div class="wrap">
+      <p class="mono">EXPLORE THE PROJECT</p>
+      <h2>Make image text<br>part of the reading flow.</h2>
+      <div class="button-row centered">
+        <a class="button button-primary" href="https://github.com/Janon7300/image-lens" target="_blank" rel="noreferrer">Source &amp; Installation ↗</a>
+        <a class="button button-secondary" href="../">← All Projects</a>
+      </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <p>Janon7300 © 2026</p><a class="mono" href="../">← Back to Projects</a>
+  </footer>
+</body>
+</html>
